@@ -2,772 +2,811 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>嘉義文化串 心理測驗｜新版視覺規格</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>文化＋1串！｜你是哪種嘉義文化串？</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-/* ============================================
-   嘉義文化串 心理測驗 — 新版視覺規格
-   版本：v6-design
-   更新日期：2026-04-24
-   設計方向：從黑底改為奶油白底，延伸 CIS 主視覺
-   ============================================ */
-
-/* ── CSS 變數 / CIS 色彩系統 ── */
 :root {
-  /* CIS 五色 */
-  --cis-orange: #FF5500;   /* 串連橘 Pantone 804C */
-  --cis-yellow: #FFE100;   /* 行動黃 Pantone 803C */
-  --cis-green:  #44D62C;   /* 工藝綠 Pantone 802C */
-  --cis-blue:   #00B2FF;   /* 展演藍 Pantone 801C */
-  --cis-pink:   #FF3FB6;   /* 社造粉 Pantone 806C */
-
-  /* 四大串 Header 顏色（結果頁依角色切換） */
-  --串-工藝: var(--cis-green);
-  --串-展演: var(--cis-blue);
-  --串-社造: var(--cis-pink);
-  --串-行動: var(--cis-yellow);
-
-  /* 背景 */
-  --cream: #FFF8EF;         /* 主背景（奶油白） */
-  --warm-white: #FFFDF7;    /* 題目頁背景 */
-
-  /* 文字 */
-  --dark: #1A0A00;          /* 主文字 */
-  --mid:  #7A3A00;          /* 次文字 / 說明文字 */
-  --muted: rgba(0,0,0,0.45);
-
-  /* 竹串色 */
+  --cis-orange: #FF5500;
+  --cis-yellow: #FFE100;
+  --cis-green:  #44D62C;
+  --cis-blue:   #00B2FF;
+  --cis-pink:   #FF3FB6;
+  --cream: #FFF8EF;
+  --warm-white: #FFFDF7;
+  --dark: #1A0A00;
+  --mid: #7A3A00;
   --stick: #8B4513;
-
-  /* 字型 */
   --font: 'Noto Sans TC', sans-serif;
 }
-
-/* ── 全域 reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body {
-  font-family: var(--font);
-  background: #F0EBE1;
-  color: var(--dark);
-  min-height: 100vh;
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--cream); color: var(--dark); min-height: 100vh; }
+
+/* ── 共用 ── */
+.screen { display: none; min-height: 100vh; flex-direction: column; }
+.screen.active { display: flex; }
+.btn-primary {
+  display: block; width: 100%; background: var(--cis-orange); color: white;
+  font-family: var(--font); font-size: 17px; font-weight: 900; padding: 16px;
+  border-radius: 100px; border: none; cursor: pointer; text-align: center;
+  letter-spacing: 0.04em; box-shadow: 0 4px 0 #CC3300; transition: transform 0.1s;
+}
+.btn-primary:active { transform: translateY(3px); box-shadow: none; }
+.btn-secondary {
+  display: block; width: 100%; background: transparent; color: var(--mid);
+  font-family: var(--font); font-size: 14px; font-weight: 700; padding: 12px;
+  border-radius: 100px; border: 1.5px solid rgba(122,58,0,0.25); cursor: pointer; text-align: center;
 }
 
-/* ============================================
-   SECTION 1 — 封面頁 (Cover)
-   ============================================ */
-.quiz-cover {
-  background: var(--cream);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-}
-
-/* 頂部橘色 topbar */
+/* ══════════════════════════════
+   封面頁
+══════════════════════════════ */
+#screen-cover { background: var(--cream); }
 .cover-topbar {
-  background: var(--cis-orange);
-  padding: 16px 20px 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: relative;
-  flex-shrink: 0;
+  background: var(--cis-orange); padding: 16px 20px 14px;
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
 }
-.cover-topbar::after {
-  content: '';
-  position: absolute;
-  bottom: -16px;
-  left: 0; right: 0;
-  height: 16px;
-  background: var(--cis-yellow);
-}
-.cover-brand-excl {
-  font-size: 28px;
-  font-weight: 900;
-  color: var(--cis-yellow);
-  line-height: 1;
-}
-.cover-brand-name {
-  font-size: 16px;
-  font-weight: 900;
-  color: white;
-  letter-spacing: 0.04em;
-}
-
-/* 右側串燒裝飾 */
+.cover-brand-excl { font-size: 28px; font-weight: 900; color: var(--cis-yellow); line-height: 1; }
+.cover-brand-name { font-size: 16px; font-weight: 900; color: white; letter-spacing: 0.04em; }
+.cover-yellow-bar { height: 16px; background: var(--cis-yellow); flex-shrink: 0; }
+.cover-body { flex: 1; position: relative; padding: 28px 24px 100px; }
 .cover-skewer {
-  position: absolute;
-  top: 80px;
-  right: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 2;
+  position: absolute; top: 20px; right: 24px;
+  display: flex; flex-direction: column; align-items: center; z-index: 2;
 }
-.skewer-stick {
-  width: 4px;
-  background: var(--stick);
-  border-radius: 2px;
-}
-.skewer-ball {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2.5px solid white;
-  margin: 3px 0;
+.sk-stick { width: 4px; background: var(--stick); border-radius: 2px; }
+.sk-ball {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2.5px solid white; margin: 3px 0;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
-
-/* 主內容區 */
-.cover-content {
-  padding: 44px 24px 0;
-  flex: 1;
-}
 .cover-tag {
-  display: inline-block;
-  background: var(--cis-yellow);
-  color: var(--dark);
-  font-size: 12px;
-  font-weight: 900;
-  padding: 4px 14px;
-  border-radius: 100px;
-  margin-bottom: 16px;
-  letter-spacing: 0.06em;
+  display: inline-block; background: var(--cis-yellow); color: var(--dark);
+  font-size: 12px; font-weight: 900; padding: 4px 14px;
+  border-radius: 100px; margin-bottom: 16px; letter-spacing: 0.06em;
 }
-.cover-title {
-  font-size: 32px;
-  font-weight: 900;
-  color: var(--dark);
-  line-height: 1.25;
-  margin-bottom: 8px;
-}
+.cover-title { font-size: 30px; font-weight: 900; line-height: 1.25; margin-bottom: 10px; }
 .cover-title .accent { color: var(--cis-orange); }
-.cover-subtitle {
-  font-size: 15px;
-  color: var(--mid);
-  line-height: 1.7;
-}
-
-/* 角色圓形區 */
-.cover-chars {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 40px 24px 100px;
-}
+.cover-subtitle { font-size: 14px; color: var(--mid); line-height: 1.7; }
+.cover-chars { display: flex; flex-wrap: wrap; gap: 10px; padding: 32px 0 0; }
 .cover-char {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  border: 3px solid white;
+  width: 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; border: 3px solid white;
   box-shadow: 0 3px 10px rgba(0,0,0,0.12);
 }
-
-/* 開始按鈕（固定底部） */
 .cover-cta {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
+  position: fixed; bottom: 0; left: 0; right: 0;
   padding: 16px 24px 32px;
-  background: linear-gradient(to top, var(--cream) 80%, transparent);
-}
-.btn-start {
-  display: block;
-  width: 100%;
-  background: var(--cis-orange);
-  color: white;
-  font-family: var(--font);
-  font-size: 17px;
-  font-weight: 900;
-  padding: 16px;
-  border-radius: 100px;
-  border: none;
-  cursor: pointer;
-  text-align: center;
-  letter-spacing: 0.04em;
-  transition: transform 0.1s, box-shadow 0.1s;
-  box-shadow: 0 4px 0 #CC3300;
-}
-.btn-start:active {
-  transform: translateY(3px);
-  box-shadow: 0 1px 0 #CC3300;
+  background: linear-gradient(to top, var(--cream) 70%, transparent);
 }
 
-/* ============================================
-   SECTION 2 — 題目頁 (Question)
-   ============================================ */
-.quiz-question {
-  background: var(--warm-white);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 進度列 */
-.q-progress-bar {
-  background: var(--cis-orange);
-  padding: 14px 20px 12px;
-  flex-shrink: 0;
-}
-.q-progress-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.75);
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
-}
-.q-progress-track {
-  height: 6px;
-  background: rgba(255,255,255,0.25);
-  border-radius: 100px;
-  overflow: hidden;
-}
-.q-progress-fill {
-  height: 100%;
-  background: var(--cis-yellow);
-  border-radius: 100px;
-  transition: width 0.4s ease;
-  /* width: X% — 動態設定 */
-}
-
-/* 問題框 */
-.q-question-area {
-  background: var(--cis-orange);
-  padding: 20px 20px 32px;
-  flex-shrink: 0;
-  position: relative;
+/* ══════════════════════════════
+   題目頁
+══════════════════════════════ */
+#screen-question { background: var(--warm-white); }
+.q-header { background: var(--cis-orange); padding: 14px 20px 12px; flex-shrink: 0; }
+.q-prog-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.75); letter-spacing: 0.08em; margin-bottom: 8px; }
+.q-prog-track { height: 6px; background: rgba(255,255,255,0.25); border-radius: 100px; overflow: hidden; }
+.q-prog-fill { height: 100%; background: var(--cis-yellow); border-radius: 100px; transition: width 0.4s ease; }
+.q-box {
+  background: var(--cis-orange); padding: 20px 20px 36px; flex-shrink: 0;
   clip-path: ellipse(120% 100% at 50% 0%);
 }
-.q-num {
-  font-size: 11px;
-  font-weight: 900;
-  color: var(--cis-yellow);
-  letter-spacing: 0.1em;
-  margin-bottom: 8px;
-}
-.q-text {
-  font-size: 18px;
-  font-weight: 900;
-  color: white;
-  line-height: 1.5;
-}
-
-/* 選項列表 */
-.q-options {
-  padding: 28px 20px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  flex: 1;
-}
+.q-num { font-size: 11px; font-weight: 900; color: var(--cis-yellow); letter-spacing: 0.1em; margin-bottom: 8px; }
+.q-text { font-size: 18px; font-weight: 900; color: white; line-height: 1.5; }
+.q-options { padding: 28px 20px 16px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
 .q-option {
-  background: white;
-  border: 2px solid rgba(255,85,0,0.18);
-  border-radius: 18px;
-  padding: 14px 18px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  cursor: pointer;
+  background: white; border: 2px solid rgba(255,85,0,0.18);
+  border-radius: 18px; padding: 14px 18px;
+  display: flex; align-items: center; gap: 14px; cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
 }
-.q-option:hover {
-  border-color: rgba(255,85,0,0.4);
-}
-.q-option.selected {
-  border-color: var(--cis-orange);
-  background: #FFF2EB;
-}
+.q-option:hover { border-color: rgba(255,85,0,0.4); }
+.q-option.selected { border-color: var(--cis-orange); background: #FFF2EB; }
 .opt-radio {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 2px solid rgba(255,85,0,0.3);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid rgba(255,85,0,0.3); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
   transition: background 0.15s, border-color 0.15s;
 }
-.q-option.selected .opt-radio {
-  background: var(--cis-orange);
-  border-color: var(--cis-orange);
-}
+.q-option.selected .opt-radio { background: var(--cis-orange); border-color: var(--cis-orange); }
 .opt-radio::after {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: white;
-  opacity: 0;
+  content: ''; width: 8px; height: 8px; border-radius: 50%; background: white; opacity: 0;
 }
 .q-option.selected .opt-radio::after { opacity: 1; }
-.opt-text {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--dark);
-  line-height: 1.5;
-}
-
-/* 下一題按鈕 */
-.q-footer {
-  padding: 0 20px 36px;
-  display: flex;
-  justify-content: flex-end;
-}
+.opt-text { font-size: 14px; font-weight: 700; color: var(--dark); line-height: 1.5; }
+.q-footer { padding: 8px 20px 36px; display: flex; justify-content: flex-end; }
 .btn-next {
-  background: var(--cis-orange);
-  color: white;
-  font-family: var(--font);
-  font-size: 15px;
-  font-weight: 900;
-  padding: 12px 28px;
-  border-radius: 100px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 3px 0 #CC3300;
-  transition: transform 0.1s;
+  background: var(--cis-orange); color: white; font-family: var(--font);
+  font-size: 15px; font-weight: 900; padding: 12px 28px;
+  border-radius: 100px; border: none; cursor: pointer;
+  box-shadow: 0 3px 0 #CC3300; transition: transform 0.1s; opacity: 0.4; pointer-events: none;
 }
+.btn-next.ready { opacity: 1; pointer-events: auto; }
 .btn-next:active { transform: translateY(2px); box-shadow: none; }
 
-/* ============================================
-   SECTION 3 — 結果頁 (Result)
-   結果頁 header 顏色根據角色的「串」類別切換：
-   工藝串 → var(--cis-green)  / 深色文字 #0A3A00
-   展演串 → var(--cis-blue)   / 深色文字 #00274A
-   社造串 → var(--cis-pink)   / 深色文字 #4A003A
-   行動串 → var(--cis-yellow) / 深色文字 #3A2A00
-   ============================================ */
-.quiz-result {
-  background: var(--cream);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* ══════════════════════════════
+   結果頁
+══════════════════════════════ */
+#screen-result { background: var(--cream); }
+.r-header { padding: 20px 20px 18px; position: relative; flex-shrink: 0; }
+.r-header-label { font-size: 11px; font-weight: 900; color: rgba(0,0,0,0.45); letter-spacing: 0.1em; margin-bottom: 6px; }
+.r-char-name { font-size: 26px; font-weight: 900; line-height: 1.2; }
+.r-rarity {
+  position: absolute; top: 20px; right: 20px;
+  background: var(--cis-yellow); color: var(--dark);
+  font-size: 11px; font-weight: 900; padding: 4px 12px;
+  border-radius: 100px; letter-spacing: 0.04em;
 }
-
-/* 結果 header */
-.r-header {
-  padding: 20px 20px 18px;
-  position: relative;
-  flex-shrink: 0;
-  /* background: var(--cis-green); — 依角色換色 */
-}
-.r-header-label {
-  font-size: 11px;
-  font-weight: 900;
-  color: var(--muted);
-  letter-spacing: 0.1em;
-  margin-bottom: 6px;
-}
-.r-char-name {
-  font-size: 28px;
-  font-weight: 900;
-  line-height: 1.2;
-  /* color: 依串類別設定深色 */
-}
-.r-rarity-badge {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: var(--cis-yellow);
-  color: var(--dark);
-  font-size: 11px;
-  font-weight: 900;
-  padding: 4px 12px;
-  border-radius: 100px;
-  letter-spacing: 0.04em;
-}
-
-/* 角色圖示區（含串燒竹串裝飾） */
 .r-icon-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 24px 0 16px;
-  position: relative;
+  display: flex; justify-content: center; align-items: center;
+  padding: 24px 0 16px; position: relative;
 }
 .r-skewer-line {
-  position: absolute;
-  top: 0; bottom: 0;
-  left: 50%;
-  width: 4px;
+  position: absolute; top: 0; bottom: 0; left: 50%; width: 4px;
   transform: translateX(-50%);
-  background: repeating-linear-gradient(
-    to bottom,
-    var(--stick) 0px,
-    var(--stick) 20px,
-    transparent 20px,
-    transparent 26px
-  );
+  background: repeating-linear-gradient(to bottom, var(--stick) 0px, var(--stick) 20px, transparent 20px, transparent 26px);
   z-index: 0;
 }
 .r-char-icon {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 48px;
-  border: 4px solid white;
-  box-shadow: 0 6px 0 rgba(0,0,0,0.1);
-  position: relative;
-  z-index: 1;
-  /* background: 依角色串色 */
+  width: 96px; height: 96px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px; border: 4px solid white;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.1); position: relative; z-index: 1;
 }
-
-/* 性格描述 */
-.r-desc {
-  padding: 4px 24px 0;
-  font-size: 15px;
-  color: var(--mid);
-  line-height: 1.75;
-  text-align: center;
+.r-desc { padding: 4px 24px 0; font-size: 14px; color: var(--mid); line-height: 1.8; text-align: center; }
+.r-quote {
+  margin: 12px 20px; padding: 14px 18px;
+  background: white; border-radius: 16px;
+  border-left: 4px solid var(--cis-orange);
+  font-size: 13px; font-weight: 700; color: var(--dark); line-height: 1.6;
 }
-
-/* 標籤 */
-.r-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 18px 24px;
-  justify-content: center;
-}
-.r-tag {
-  font-size: 12px;
-  font-weight: 700;
-  padding: 5px 14px;
-  border-radius: 100px;
-}
-/* 工藝橘 */
-.tag-工藝 { background: #FFE8D6; color: #A33000; }
-/* 展演藍 */
-.tag-展演 { background: #D6EEFF; color: #003A7A; }
-/* 社造粉 */
-.tag-社造 { background: #FFD6F0; color: #7A003A; }
-/* 行動黃 */
-.tag-行動 { background: #FFF5C0; color: #7A5A00; }
-/* 通用 */
-.tag-中性 { background: #EEE8E0; color: #5A3A00; }
-
-/* 推薦站點 */
-.r-sites {
-  padding: 0 20px 12px;
-}
-.r-sites-title {
-  font-size: 11px;
-  font-weight: 900;
-  color: var(--mid);
-  letter-spacing: 0.08em;
-  margin-bottom: 10px;
-}
+.r-tags { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 20px; }
+.r-tag { font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 100px; background: #FFE8D6; color: #A33000; }
+.r-section-title { font-size: 11px; font-weight: 900; color: var(--mid); letter-spacing: 0.08em; padding: 0 20px 8px; }
+.r-sites { padding: 0 20px 12px; }
 .r-site-card {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background: white;
-  border-radius: 16px;
-  padding: 12px 16px;
-  margin-bottom: 8px;
-  border: 1px solid rgba(255,85,0,0.12);
+  display: flex; align-items: center; gap: 14px;
+  background: white; border-radius: 16px; padding: 12px 16px;
+  margin-bottom: 8px; border: 1px solid rgba(255,85,0,0.12);
+  cursor: pointer; text-decoration: none;
 }
-.r-site-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.r-site-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--dark);
-}
-.r-site-cat {
-  font-size: 11px;
-  color: var(--mid);
-  margin-top: 2px;
-}
-.r-site-arrow {
-  margin-left: auto;
-  color: var(--cis-orange);
-  font-size: 16px;
-  font-weight: 900;
-}
-
-/* 配對好串友 */
-.r-pair {
-  padding: 4px 20px 16px;
-  background: white;
-  margin: 0 20px 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,85,0,0.12);
-}
-.r-pair-title {
-  font-size: 11px;
-  font-weight: 900;
-  color: var(--mid);
-  letter-spacing: 0.08em;
-  padding-top: 14px;
-  margin-bottom: 10px;
-}
-.r-pair-row {
-  display: flex;
-  gap: 12px;
-}
-.r-pair-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.r-pair-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  border: 2px solid white;
-}
-.r-pair-label { font-size: 11px; font-weight: 700; color: var(--dark); }
+.r-site-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.r-site-name { font-size: 14px; font-weight: 700; color: var(--dark); }
+.r-site-arrow { margin-left: auto; color: var(--cis-orange); font-size: 18px; font-weight: 900; }
+.r-pair-box { margin: 0 20px 12px; background: white; border-radius: 16px; padding: 14px 16px; border: 1px solid rgba(255,85,0,0.12); }
+.r-pair-title { font-size: 11px; font-weight: 900; color: var(--mid); letter-spacing: 0.08em; margin-bottom: 12px; }
+.r-pair-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.r-pair-item { display: flex; align-items: center; gap: 8px; }
+.r-pair-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 2px solid white; }
+.r-pair-name { font-size: 12px; font-weight: 700; color: var(--dark); }
 .r-pair-compat { font-size: 10px; color: var(--mid); }
+.r-footer { padding: 8px 20px 48px; display: flex; flex-direction: column; gap: 10px; }
 
-/* 分享按鈕 */
-.r-footer {
-  padding: 0 20px 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* ══════════════════════════════
+   Admin 後台
+══════════════════════════════ */
+#screen-admin { background: #1A0A00; color: white; }
+.admin-header {
+  background: var(--cis-orange); padding: 16px 20px;
+  display: flex; align-items: center; justify-content: space-between;
 }
-.btn-share {
-  background: var(--cis-orange);
-  color: white;
-  font-family: var(--font);
-  font-size: 16px;
-  font-weight: 900;
-  padding: 16px;
-  border-radius: 100px;
-  border: none;
-  cursor: pointer;
-  text-align: center;
-  box-shadow: 0 4px 0 #CC3300;
-  transition: transform 0.1s;
+.admin-title { font-size: 16px; font-weight: 900; color: white; }
+.admin-logout { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); cursor: pointer; background: none; border: none; font-family: var(--font); }
+.admin-body { padding: 20px; flex: 1; overflow-y: auto; }
+.admin-card { background: rgba(255,255,255,0.07); border-radius: 16px; padding: 16px; margin-bottom: 16px; }
+.admin-card-title { font-size: 12px; font-weight: 900; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; margin-bottom: 12px; }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat-item { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; }
+.stat-num { font-size: 24px; font-weight: 900; color: var(--cis-yellow); }
+.stat-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.result-bar { margin-bottom: 10px; }
+.result-bar-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; margin-bottom: 4px; }
+.result-bar-track { height: 8px; background: rgba(255,255,255,0.1); border-radius: 100px; overflow: hidden; }
+.result-bar-fill { height: 100%; background: var(--cis-orange); border-radius: 100px; transition: width 0.6s ease; }
+.admin-table { width: 100%; font-size: 11px; border-collapse: collapse; }
+.admin-table th { text-align: left; color: rgba(255,255,255,0.4); font-weight: 700; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.admin-table td { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
+.btn-export {
+  background: rgba(255,255,255,0.1); color: white; font-family: var(--font);
+  font-size: 13px; font-weight: 700; padding: 10px 20px;
+  border-radius: 100px; border: 1px solid rgba(255,255,255,0.2);
+  cursor: pointer; width: 100%; margin-top: 8px;
 }
-.btn-share:active { transform: translateY(3px); box-shadow: none; }
-.btn-retry {
-  background: transparent;
-  color: var(--mid);
-  font-family: var(--font);
-  font-size: 14px;
-  font-weight: 700;
-  padding: 12px;
-  border-radius: 100px;
-  border: 1.5px solid rgba(122,58,0,0.25);
-  cursor: pointer;
-  text-align: center;
-}
+.loading-text { color: rgba(255,255,255,0.4); font-size: 13px; text-align: center; padding: 20px; }
 
-/* ============================================
-   DEMO PREVIEW LAYOUT（規格文件用，可刪除）
-   ============================================ */
-.spec-wrapper {
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 24px 16px;
+/* ══════════════════════════════
+   Admin 登入
+══════════════════════════════ */
+#screen-login { background: #1A0A00; align-items: center; justify-content: center; }
+.login-box { width: 100%; max-width: 360px; padding: 0 24px; }
+.login-logo { text-align: center; margin-bottom: 32px; }
+.login-logo .excl { font-size: 48px; font-weight: 900; color: var(--cis-orange); }
+.login-logo .name { font-size: 14px; font-weight: 900; color: rgba(255,255,255,0.6); margin-top: 8px; }
+.login-label { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.5); margin-bottom: 8px; letter-spacing: 0.06em; }
+.login-input {
+  width: 100%; background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 14px; padding: 14px 16px; font-family: var(--font); font-size: 16px;
+  color: white; margin-bottom: 16px; outline: none;
 }
-.spec-section-label {
-  font-size: 11px;
-  font-weight: 900;
-  color: #888;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin: 32px 0 12px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
-}
-
-/* 四大串的結果頁 header 配色快查表 */
-/*
-  工藝串：background #44D62C  /  text color #0A3A00  /  icon bg #44D62C
-  展演串：background #00B2FF  /  text color #00274A  /  icon bg #00B2FF
-  社造串：background #FF3FB6  /  text color #4A003A  /  icon bg #FF3FB6
-  行動串：background #FFE100  /  text color #3A2A00  /  icon bg #FFE100
-*/
+.login-input:focus { border-color: var(--cis-orange); }
+.login-err { color: #FF6B6B; font-size: 12px; font-weight: 700; margin-bottom: 12px; display: none; }
 </style>
 </head>
 <body>
-<div class="spec-wrapper">
 
-  <!-- ① 封面頁範例 -->
-  <div class="spec-section-label">① 封面頁 Cover</div>
-  <div style="border-radius:24px;overflow:hidden;border:1.5px solid rgba(0,0,0,0.1);">
-    <div class="quiz-cover" style="min-height:auto;">
-      <div class="cover-topbar">
-        <span class="cover-brand-excl">！</span>
-        <span class="cover-brand-name">文化＋1串</span>
-      </div>
-      <!-- 黃色帶 -->
-      <div style="height:16px;background:var(--cis-yellow);flex-shrink:0;"></div>
-
-      <div style="position:relative;background:var(--cream);padding-bottom:80px;">
-        <!-- 串燒裝飾 -->
-        <div class="cover-skewer">
-          <div class="skewer-stick" style="height:16px;"></div>
-          <div class="skewer-ball" style="background:var(--cis-orange);"></div>
-          <div class="skewer-stick" style="height:8px;"></div>
-          <div class="skewer-ball" style="background:var(--cis-yellow);"></div>
-          <div class="skewer-stick" style="height:8px;"></div>
-          <div class="skewer-ball" style="background:var(--cis-green);"></div>
-          <div class="skewer-stick" style="height:8px;"></div>
-          <div class="skewer-ball" style="background:var(--cis-blue);"></div>
-          <div class="skewer-stick" style="height:8px;"></div>
-          <div class="skewer-ball" style="background:var(--cis-pink);"></div>
-          <div class="skewer-stick" style="height:16px;"></div>
-        </div>
-
-        <div class="cover-content">
-          <span class="cover-tag">心理測驗</span>
-          <div class="cover-title">你是哪種<br><span class="accent">嘉義文化串</span>？</div>
-          <div class="cover-subtitle" style="margin-top:10px;">8 種串燒個性<br>找到你的嘉義文化靈魂</div>
-        </div>
-
-        <div class="cover-chars">
-          <div class="cover-char" style="background:var(--cis-orange);">🌶</div>
-          <div class="cover-char" style="background:var(--cis-yellow);">🧅</div>
-          <div class="cover-char" style="background:var(--cis-green);">🥬</div>
-          <div class="cover-char" style="background:var(--cis-blue);">🧊</div>
-          <div class="cover-char" style="background:var(--cis-pink);">🍡</div>
-          <div class="cover-char" style="background:#FF8800;">🍄</div>
-          <div class="cover-char" style="background:#AA44FF;">🧄</div>
-          <div class="cover-char" style="background:#00CCAA;">🌿</div>
-        </div>
-      </div>
-
-      <div style="padding:16px 24px 24px;background:var(--cream);">
-        <button class="btn-start">開始測驗 →</button>
-      </div>
+<!-- ══ 封面頁 ══ -->
+<div id="screen-cover" class="screen active">
+  <div class="cover-topbar">
+    <span class="cover-brand-excl">！</span>
+    <span class="cover-brand-name">文化＋1串</span>
+  </div>
+  <div class="cover-yellow-bar"></div>
+  <div class="cover-body">
+    <div class="cover-skewer">
+      <div class="sk-stick" style="height:16px"></div>
+      <div class="sk-ball" style="background:var(--cis-orange)"></div>
+      <div class="sk-stick" style="height:8px"></div>
+      <div class="sk-ball" style="background:var(--cis-yellow)"></div>
+      <div class="sk-stick" style="height:8px"></div>
+      <div class="sk-ball" style="background:var(--cis-green)"></div>
+      <div class="sk-stick" style="height:8px"></div>
+      <div class="sk-ball" style="background:var(--cis-blue)"></div>
+      <div class="sk-stick" style="height:8px"></div>
+      <div class="sk-ball" style="background:var(--cis-pink)"></div>
+      <div class="sk-stick" style="height:16px"></div>
+    </div>
+    <div class="cover-tag">心理測驗</div>
+    <div class="cover-title">你是哪種<br><span class="accent">嘉義文化串</span>？</div>
+    <div class="cover-subtitle">8 種串燒個性<br>找到你的嘉義文化靈魂</div>
+    <div class="cover-chars">
+      <div class="cover-char" style="background:var(--cis-orange)">🍡</div>
+      <div class="cover-char" style="background:var(--cis-yellow)">🍍</div>
+      <div class="cover-char" style="background:#FF88CC">🍭</div>
+      <div class="cover-char" style="background:#FF4422">🌶️</div>
+      <div class="cover-char" style="background:#FFC040">🥚</div>
+      <div class="cover-char" style="background:#FF6666">🍬</div>
+      <div class="cover-char" style="background:#886644">🪵</div>
+      <div class="cover-char" style="background:#AA44FF">🎰</div>
     </div>
   </div>
-
-  <!-- ② 題目頁範例 -->
-  <div class="spec-section-label">② 題目頁 Question</div>
-  <div style="border-radius:24px;overflow:hidden;border:1.5px solid rgba(0,0,0,0.1);">
-    <div class="quiz-question" style="min-height:auto;">
-      <div class="q-progress-bar">
-        <div class="q-progress-label">Q3 / 8</div>
-        <div class="q-progress-track">
-          <div class="q-progress-fill" style="width:37.5%;"></div>
-        </div>
-      </div>
-      <div class="q-question-area">
-        <div class="q-num">Q.3</div>
-        <div class="q-text">朋友突然揪去嘉義，<br>你的第一反應是？</div>
-      </div>
-      <div class="q-options">
-        <div class="q-option selected">
-          <div class="opt-radio"></div>
-          <div class="opt-text">「好欸！先查有什麼好吃的！」</div>
-        </div>
-        <div class="q-option">
-          <div class="opt-radio"></div>
-          <div class="opt-text">「等一下我查一下有什麼文化景點」</div>
-        </div>
-        <div class="q-option">
-          <div class="opt-radio"></div>
-          <div class="opt-text">「反正你安排，我跟著走就好」</div>
-        </div>
-        <div class="q-option">
-          <div class="opt-radio"></div>
-          <div class="opt-text">「我其實更想一個人慢慢逛」</div>
-        </div>
-      </div>
-      <div class="q-footer">
-        <button class="btn-next">下一題 →</button>
-      </div>
-    </div>
+  <div class="cover-cta">
+    <button class="btn-primary" onclick="startQuiz()">開始測驗 →</button>
   </div>
-
-  <!-- ③ 結果頁範例（工藝串） -->
-  <div class="spec-section-label">③ 結果頁 Result（以工藝串為例）</div>
-  <div style="border-radius:24px;overflow:hidden;border:1.5px solid rgba(0,0,0,0.1);">
-    <div class="quiz-result" style="min-height:auto;">
-      <div class="r-header" style="background:var(--cis-green);">
-        <div class="r-header-label">你的文化串類型</div>
-        <div class="r-char-name" style="color:#0A3A00;">獨辣辣<br>串串香</div>
-        <div class="r-rarity-badge">稀有度 12%</div>
-      </div>
-      <div class="r-icon-wrap">
-        <div class="r-skewer-line"></div>
-        <div class="r-char-icon" style="background:var(--cis-green);">🌶</div>
-      </div>
-      <div class="r-desc">獨行、直接、有想法。<br>你是那種一個人去嘉義<br>也能玩得超充實的人。</div>
-      <div class="r-tags">
-        <span class="r-tag tag-工藝">工藝串</span>
-        <span class="r-tag tag-中性">獨旅型</span>
-        <span class="r-tag tag-中性">深度旅遊</span>
-        <span class="r-tag tag-中性">有規劃</span>
-      </div>
-
-      <div class="r-pair" style="margin:0 20px 12px;">
-        <div class="r-pair-title">你的串燒好夥伴</div>
-        <div class="r-pair-row">
-          <div class="r-pair-item">
-            <div class="r-pair-icon" style="background:var(--cis-blue);">🧊</div>
-            <div>
-              <div class="r-pair-label">冷靜清涼飲</div>
-              <div class="r-pair-compat">超級契合 ♥</div>
-            </div>
-          </div>
-          <div class="r-pair-item">
-            <div class="r-pair-icon" style="background:var(--cis-pink);">🍡</div>
-            <div>
-              <div class="r-pair-label">甜膩社交串</div>
-              <div class="r-pair-compat">互補型朋友</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="r-sites">
-        <div class="r-sites-title">推薦你的文化基地</div>
-        <div class="r-site-card">
-          <div class="r-site-dot" style="background:var(--cis-orange);"></div>
-          <div>
-            <div class="r-site-name">福樟良材</div>
-            <div class="r-site-cat">工藝串 · 木工體驗</div>
-          </div>
-          <div class="r-site-arrow">›</div>
-        </div>
-        <div class="r-site-card">
-          <div class="r-site-dot" style="background:var(--cis-blue);"></div>
-          <div>
-            <div class="r-site-name">嘉義市立美術館</div>
-            <div class="r-site-cat">展演串 · 藝術展覽</div>
-          </div>
-          <div class="r-site-arrow">›</div>
-        </div>
-        <div class="r-site-card">
-          <div class="r-site-dot" style="background:var(--cis-green);"></div>
-          <div>
-            <div class="r-site-name">木更咖啡</div>
-            <div class="r-site-cat">工藝串 · 選物空間</div>
-          </div>
-          <div class="r-site-arrow">›</div>
-        </div>
-      </div>
-
-      <div class="r-footer">
-        <button class="btn-share">分享我的結果！</button>
-        <button class="btn-retry">再測一次</button>
-      </div>
-    </div>
-  </div>
-
 </div>
+
+<!-- ══ 題目頁 ══ -->
+<div id="screen-question" class="screen">
+  <div class="q-header">
+    <div class="q-prog-label" id="prog-label">Q1 / 9</div>
+    <div class="q-prog-track"><div class="q-prog-fill" id="prog-fill" style="width:11%"></div></div>
+  </div>
+  <div class="q-box">
+    <div class="q-num" id="q-num">Q.1</div>
+    <div class="q-text" id="q-text"></div>
+  </div>
+  <div class="q-options" id="q-options"></div>
+  <div class="q-footer">
+    <button class="btn-next" id="btn-next" onclick="nextQ()">下一題 →</button>
+  </div>
+</div>
+
+<!-- ══ 結果頁 ══ -->
+<div id="screen-result" class="screen">
+  <div class="r-header" id="r-header">
+    <div class="r-header-label">你的文化串類型</div>
+    <div class="r-char-name" id="r-name"></div>
+    <div class="r-rarity" id="r-rarity"></div>
+  </div>
+  <div class="r-icon-wrap">
+    <div class="r-skewer-line"></div>
+    <div class="r-char-icon" id="r-icon"></div>
+  </div>
+  <div class="r-desc" id="r-desc"></div>
+  <div class="r-quote" id="r-quote"></div>
+  <div class="r-tags" id="r-tags"></div>
+  <div class="r-section-title">推薦你的文化基地</div>
+  <div class="r-sites" id="r-sites"></div>
+  <div class="r-pair-box">
+    <div class="r-pair-title">你的串燒好夥伴</div>
+    <div class="r-pair-row" id="r-pairs"></div>
+  </div>
+  <div class="r-footer">
+    <button class="btn-primary" onclick="shareResult()">分享我的結果！</button>
+    <button class="btn-secondary" onclick="retryQuiz()">再測一次</button>
+  </div>
+</div>
+
+<!-- ══ Admin 登入 ══ -->
+<div id="screen-login" class="screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="excl">！</div>
+      <div class="name">文化＋1串 後台管理</div>
+    </div>
+    <div class="login-label">密碼</div>
+    <input class="login-input" type="password" id="login-pw" placeholder="輸入管理密碼" onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="login-err" id="login-err">密碼錯誤，請再試一次</div>
+    <button class="btn-primary" onclick="doLogin()">登入後台</button>
+  </div>
+</div>
+
+<!-- ══ Admin 後台 ══ -->
+<div id="screen-admin" class="screen">
+  <div class="admin-header">
+    <div class="admin-title">📊 數據後台</div>
+    <button class="admin-logout" onclick="logout()">登出</button>
+  </div>
+  <div class="admin-body">
+    <div class="admin-card">
+      <div class="admin-card-title">總覽</div>
+      <div class="stat-grid">
+        <div class="stat-item"><div class="stat-num" id="stat-total">-</div><div class="stat-label">總答題人數</div></div>
+        <div class="stat-item"><div class="stat-num" id="stat-today">-</div><div class="stat-label">今日新增</div></div>
+        <div class="stat-item"><div class="stat-num" id="stat-types">8</div><div class="stat-label">串型種類</div></div>
+        <div class="stat-item"><div class="stat-num" id="stat-share">-</div><div class="stat-label">分享次數</div></div>
+      </div>
+    </div>
+    <div class="admin-card">
+      <div class="admin-card-title">各串型分佈</div>
+      <div id="result-bars"><div class="loading-text">載入中...</div></div>
+    </div>
+    <div class="admin-card">
+      <div class="admin-card-title">最近答題紀錄</div>
+      <div id="recent-table"><div class="loading-text">載入中...</div></div>
+      <button class="btn-export" onclick="exportCSV()">匯出 CSV</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════
+// 資料設定
+// ══════════════════════════════
+const ADMIN_PASSWORD = 'ccc2026';
+
+// Apps Script 網址 — 部署後填入
+const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+
+// 10 題題目 V5（嘉義串燒辦桌版）
+// 維度：E/I（Q1,Q4,Q5）× J/P（Q2,Q6,Q9）× W/D（Q3,Q7,Q8,Q10）
+const questions = [
+  {
+    id: 'Q1', dim: 'EI',
+    text: '你打開 E-mail，收到嘉義一封神秘信件：「嘉義串燒辦桌」派對邀請，你會怎麼做？',
+    opts: [
+      { text: '丟到朋友大群問，有誰要一起去玩啊', val: 'E' },
+      { text: '傳訊息問最好的朋友，要不要一起去', val: 'E' },
+      { text: '覺得活動很有趣，還在考慮有沒有要去', val: 'I' },
+      { text: '對「自己一人去」感到自在，準備出發', val: 'I' }
+    ]
+  },
+  {
+    id: 'Q2', dim: 'JP',
+    text: '邀請卡上只有一個神秘 LOGO、活動時間、地點，你會怎樣做？',
+    opts: [
+      { text: '上網查出所有跟這個活動相關的資料，查完再決定要不要去', val: 'J' },
+      { text: '既然要來嘉義了，順便安排嘉義一日遊行程', val: 'J' },
+      { text: '打開地圖稍微查一下派對地點，查完就睡', val: 'P' },
+      { text: '憑感覺，感覺這個神秘又有趣，就決定要去了', val: 'P' }
+    ]
+  },
+  {
+    id: 'Q3', dim: 'WD',
+    text: '邀請卡上有一個問題，決定你被分配到什麼桌。它問你：火雞肉飯你是拌還是不拌派？',
+    opts: [
+      { text: '直接拌開，加調味料，吃得夠味最重要', val: 'W', sub: 'S' },
+      { text: '拌！無論咖哩、還是火雞肉飯都要拌', val: 'W', sub: 'S' },
+      { text: '先問老闆這家店的火雞肉飯有什麼故事', val: 'D', sub: 'H' },
+      { text: '絕對不拌！一口一口慢慢吃', val: 'D', sub: 'L' }
+    ]
+  },
+  {
+    id: 'Q4', dim: 'EI',
+    text: '到達「串燒辦桌」派對現場，有一群人正在門口排隊，你的狀態是？',
+    opts: [
+      { text: '覺得這種場合很有趣，忍不住開始東看西看、甚至想找人聊幾句', val: 'E' },
+      { text: '善用排隊時間，拍照打卡，第一時間分享給好友', val: 'E' },
+      { text: '很怕跟其他人對到眼，低頭滑手機祈禱趕快進場', val: 'I' },
+      { text: '默默地觀察其他人，心裡雖然很興奮，但還是表現冷靜', val: 'I' }
+    ]
+  },
+  {
+    id: 'Q5', dim: 'EI',
+    text: '終於入座了，派對正式開始！大家開始吃串燒，隔壁的陌生人主動跟你搭話，你會？',
+    opts: [
+      { text: '很自然聊起來，甚至延伸話題、交換更多資訊', val: 'E' },
+      { text: '會回應對方，但聊天維持在輕鬆、不過深的程度', val: 'E' },
+      { text: '簡單回應後，感覺不太對 tone，把話題慢慢收掉', val: 'I' },
+      { text: '禮貌回應後，會借上廁所的藉口先結束話題', val: 'I' }
+    ]
+  },
+  {
+    id: 'Q6', dim: 'JP',
+    text: '辦桌進行到一半，你發現還有很多攤位沒逛，但時間有限，你會怎麼安排？',
+    opts: [
+      { text: '拿出手機，把剩下想去的攤位全部列清單排順序', val: 'J' },
+      { text: '先確認還有幾個攤是一定要去的，其他隨緣', val: 'J' },
+      { text: '想到哪就去哪，反正跟著感覺走', val: 'P' },
+      { text: '跟旁邊的人聊聊，看他們推薦哪個再決定', val: 'P' }
+    ]
+  },
+  {
+    id: 'Q7', dim: 'WD',
+    text: '經過一個攤位，廚師正在用炭火烤串，火光很吸引人，你會？',
+    opts: [
+      { text: '被香味和畫面吸引，邊看邊吃，享受當下的熱鬧與美味', val: 'W', sub: 'S' },
+      { text: '主動問老闆炭火、食材或手法，想知道為什麼要這樣做', val: 'D', sub: 'H' },
+      { text: '拍下攤位的細節，然後問老闆食材是哪來的', val: 'W', sub: 'V' },
+      { text: '默默觀察攤位的細節擺設和廚師的節奏與狀態', val: 'D', sub: 'L' }
+    ]
+  },
+  {
+    id: 'Q8', dim: 'WD',
+    text: '辦桌接近尾聲，台上正在進行特別節目：職人現場火烤秀，現在徵求一位觀眾一起體驗。你的反應是？',
+    opts: [
+      { text: '舉手參加！想親手體驗烤串過程', val: 'D', sub: 'craft' },
+      { text: '跑到舞台前，很好奇想要近距離觀賞細節', val: 'D', sub: 'L' },
+      { text: '跑去找最好的拍攝角度，把職人火烤秀拍下來', val: 'W', sub: 'V' },
+      { text: '表演看夠了，走去其他攤位繼續探索新東西', val: 'W', sub: 'S' }
+    ]
+  },
+  {
+    id: 'Q9', dim: 'JP',
+    text: '派對結束了，聽到同桌有人在討論要不要續攤，你會？',
+    opts: [
+      { text: '先確認幾點，去哪裡，認真評估才決定要不要去', val: 'J' },
+      { text: '影響到下一個行程，決定不要去', val: 'J' },
+      { text: '聽起來很有趣，當下就決定去吧', val: 'P' },
+      { text: '看現場氣氛，大家想去就去，不想去就算了', val: 'P' }
+    ]
+  },
+  {
+    id: 'Q10', dim: 'WD',
+    text: '最後，你要踏出派對現場時，有一個很漂亮的打卡拍照區在介紹本次活動，你會？',
+    opts: [
+      { text: '先找角度、光線，拍出最好看的畫面', val: 'W', sub: 'V' },
+      { text: '被空間氛圍吸引，會想多停留一下感受', val: 'W', sub: 'S' },
+      { text: '在現場找文字介紹或問人，想知道這個活動派對是誰主辦的', val: 'D', sub: 'H' },
+      { text: '一邊參觀，一邊好奇這場派對背後的故事', val: 'D', sub: 'V' }
+    ]
+  }
+];
+
+// 8 個角色
+const results = {
+  EJW: {
+    name: '麻吉兄弟糰糰串', icon: '🍡',
+    color: '#FF5500', textColor: '#5A0A00',
+    rarity: '19%',
+    desc: '三顆糰糰串在一起才叫完整——你去嘉義，揪人是本能，預約是習慣。行程早就排好了，你選的地方都能讓人走進去就被撞到。你要的是大家的眼睛亮起來那一刻。',
+    quote: '「揪到對的人，嘉義每一站都是加分題。」',
+    flags: ['#出發前就準備好了', '#沒有我大家就散了', '#感官衝擊派', '#進去前我最興奮'],
+    sites: ['諸羅設計塾', '新嘉義座', '舊監更生島'],
+    siteDots: ['#FF5500', '#00B2FF', '#44D62C'],
+    goodWith: [{ name: '雞肉旺萊\n椒椒串', icon: '🍍', bg: '#FFAA00' }, { name: '木熏職人\n雞肉串', icon: '🪵', bg: '#886644' }]
+  },
+  EJD: {
+    name: '雞肉旺萊椒椒串', icon: '🍍',
+    color: '#FFAA00', textColor: '#3A2000',
+    rarity: '17%',
+    desc: '雞肉的鮮、鳳梨的甜、彩椒的脆，最後胡椒的香慢慢竄上來。你揪人去嘉義，不是要去很多地方，是要大家真的嚐到那個深度。你問完還拉著朋友說「你看這個細節，這裡以前是……」',
+    quote: '「去一個地方，要嚐得出它的第二層才算數。」',
+    flags: ['#帶人挖第二層', '#還好你有問', '#問題比別人多', '#嘉義文化潛水員'],
+    sites: ['新店雨怪生態藝文教育園區', '小小逐月坊', '杏福檜樂屋'],
+    siteDots: ['#44D62C', '#FF3FB6', '#886644'],
+    goodWith: [{ name: '麻吉兄弟\n糰糰串', icon: '🍡', bg: '#FF5500' }, { name: '古早糖\n糖呼嚕串', icon: '🍬', bg: '#FF6666' }]
+  },
+  EPW: {
+    name: '繽紛棉花糖烤串', icon: '🍭',
+    color: '#FF3FB6', textColor: '#4A003A',
+    rarity: '15%',
+    desc: '好看，繽紛，走到哪都讓人停下來。你去嘉義那些值得去的空間一定會去，進去就找最對的角落，光從哪個方向來、這面牆的顏色——你的眼睛一直在工作，但你對美有本能的敏感。',
+    quote: '「美的東西不用解釋，你停下來就是答案。」',
+    flags: ['#美感雷達', '#那個光我等來的', '#進門先找角度', '#嘉義顏值代言人'],
+    sites: ['嘉義市立美術館古蹟棟', '台灣花磚博物館', 'HERMIT & Co.'],
+    siteDots: ['#00B2FF', '#FF5500', '#FF3FB6'],
+    goodWith: [{ name: '獨辣辣\n串串香', icon: '🌶️', bg: '#FF4422' }, { name: '卡恰蹦蹦串', icon: '🎰', bg: '#AA44FF' }]
+  },
+  IPW: {
+    name: '獨辣辣串串香', icon: '🌶️',
+    color: '#FF4422', textColor: '#4A0A00',
+    rarity: '13%',
+    desc: '一人份的串串香，鍋子是自己的，口味全部自己決定。你一個人去嘉義，沒有計劃，走到哪算哪。門口覺得有意思就進去，用身體感受那個空間，讓衝擊自己來。',
+    quote: '「一個人的旅行，是把所有感受都留給自己。」',
+    flags: ['#說走就走', '#一個人剛剛好', '#感官優先', '#我剛好走到那裡'],
+    sites: ['新嘉義座', '嘉頌工作室', '木更 Mugeneration'],
+    siteDots: ['#FF5500', '#44D62C', '#00B2FF'],
+    goodWith: [{ name: '繽紛棉花糖\n烤串', icon: '🍭', bg: '#FF3FB6' }, { name: '麻吉兄弟\n糰糰串', icon: '🍡', bg: '#FF5500' }]
+  },
+  EPD: {
+    name: '炭烤半熟蛋串', icon: '🥚',
+    color: '#FFC040', textColor: '#3A2000',
+    rarity: '12%',
+    desc: '半熟蛋就是這樣——外層看起來熟了，切開來那個流動的黃還在。你和朋友走進一個地方就不想出來了。沒有預約，沒有下一站，坐著翻書聊到老闆說起這條街以前的事。',
+    quote: '「真正待過的地方，回家了還在心裡。」',
+    flags: ['#不想走就不走', '#再五分鐘', '#坐下來才算在旅行', '#那個老闆說的話我還在想'],
+    sites: ['島呼冊店', '洪雅書房', 'Kagikaki 水文刨冰店'],
+    siteDots: ['#FF3FB6', '#44D62C', '#00B2FF'],
+    goodWith: [{ name: '古早糖\n糖呼嚕串', icon: '🍬', bg: '#FF6666' }, { name: '卡恰蹦蹦串', icon: '🎰', bg: '#AA44FF' }]
+  },
+  EPD2: {
+    name: '古早糖糖呼嚕串', icon: '🍬',
+    color: '#FF6666', textColor: '#4A0000',
+    rarity: '10%',
+    desc: '糖葫蘆是有記憶的食物——那層脆糖衣不用介紹，走到哪都認得出來。你對嘉義的歷史有一種本能的感應，一走到有歲月感的地方腳步就慢下來了。說明牌你從頭看到尾。',
+    quote: '「最有意思的故事，都藏在你願意停下來的那個瞬間。」',
+    flags: ['#歷史控', '#走到哪停到哪', '#走著走著就懂了', '#說明牌從頭看到尾'],
+    sites: ['台灣圖書室', '祥太文化館', '活泉人文館'],
+    siteDots: ['#FF5500', '#44D62C', '#FF3FB6'],
+    goodWith: [{ name: '雞肉旺萊\n椒椒串', icon: '🍍', bg: '#FFAA00' }, { name: '炭烤半熟\n蛋串', icon: '🥚', bg: '#FFC040' }]
+  },
+  IJD: {
+    name: '木熏職人雞肉串', icon: '🪵',
+    color: '#886644', textColor: '#2A1400',
+    rarity: '8%',
+    desc: '木熏的香氣是工序刻出來的，不是加進去的。你去嘉義有目標，親手做一件東西帶回去。預約早訂好，進了工坊第一個說「可以試試看嗎」的是你。那個香氣是時間和工序給的。',
+    quote: '「帶回去的東西有重量，才叫真的來過。」',
+    flags: ['#動手才算來過', '#帶著作品回家', '#這是你做的？', '#工藝手作控'],
+    sites: ['福樟良材木創工坊', '萬花工坊', '口袋派對會所'],
+    siteDots: ['#886644', '#44D62C', '#FF5500'],
+    goodWith: [{ name: '麻吉兄弟\n糰糰串', icon: '🍡', bg: '#FF5500' }, { name: '雞肉旺萊\n椒椒串', icon: '🍍', bg: '#FFAA00' }]
+  },
+  IPD: {
+    name: '卡恰蹦蹦串', icon: '🎰',
+    color: '#AA44FF', textColor: '#2A0060',
+    rarity: '6%',
+    desc: '你去嘉義不預約，走到了就進去，因為你知道好東西往往藏在轉角。你想拍，也想懂，先找到最對的角度，然後走過去問老闆「這棟建築以前是做什麼的」。拍照和理解從來就不是兩件事。',
+    quote: '「カチャ、ぼん——你永遠不知道嘉義的下一顆是什麼，但你知道值得轉。」',
+    flags: ['#拍照也懂深度', '#你是哪裡找到的', '#走到了就進去', '#美感與故事兼具'],
+    sites: ['嘉義神社暨附屬館所・昭和十八 J18', '二通永昌街角館', '愛木村地方文化館'],
+    siteDots: ['#FF5500', '#44D62C', '#00B2FF'],
+    goodWith: [{ name: '炭烤半熟\n蛋串', icon: '🥚', bg: '#FFC040' }, { name: '繽紛棉花糖\n烤串', icon: '🍭', bg: '#FF3FB6' }]
+  }
+};
+
+// ══════════════════════════════
+// 答題邏輯
+// ══════════════════════════════
+let scores = { E:0, I:0, J:0, P:0, W:0, D:0 };
+let currentQ = 0;
+let selectedOpt = null;
+let answers = [];
+
+function startQuiz() {
+  scores = { E:0, I:0, J:0, P:0, W:0, D:0, sub_S:0, sub_V:0, sub_H:0, sub_L:0, sub_craft:0 };
+  currentQ = 0; answers = [];
+  showScreen('screen-question');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  document.getElementById('prog-label').textContent = `Q${currentQ+1} / ${questions.length}`;
+  document.getElementById('prog-fill').style.width = `${((currentQ)/questions.length)*100}%`;
+  document.getElementById('q-num').textContent = `Q.${currentQ+1}`;
+  document.getElementById('q-text').textContent = q.text;
+  selectedOpt = null;
+  document.getElementById('btn-next').classList.remove('ready');
+
+  const container = document.getElementById('q-options');
+  container.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'q-option';
+    div.innerHTML = `<div class="opt-radio"></div><div class="opt-text">${opt.text}</div>`;
+    div.onclick = () => selectOpt(i, div);
+    container.appendChild(div);
+  });
+}
+
+function selectOpt(idx, el) {
+  document.querySelectorAll('.q-option').forEach(d => d.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedOpt = idx;
+  document.getElementById('btn-next').classList.add('ready');
+}
+
+function nextQ() {
+  if (selectedOpt === null) return;
+  const q = questions[currentQ];
+  const opt = q.opts[selectedOpt];
+  scores[opt.val] = (scores[opt.val] || 0) + 1;
+  // 記錄子維度
+  if (opt.sub) {
+    scores['sub_' + opt.sub] = (scores['sub_' + opt.sub] || 0) + 1;
+  }
+  answers.push({ q: q.id, ans: selectedOpt, val: opt.val, sub: opt.sub || '' });
+  currentQ++;
+  if (currentQ >= questions.length) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function getResultKey() {
+  // Step 1: E/I — Q1,Q4,Q5（各1分，共3分，≥2判定）
+  const ei = scores.E >= 2 ? 'E' : 'I';
+
+  // Step 2: J/P — Q2,Q6,Q9（各1分，共3分，≥2判定）
+  const jp = scores.J >= 2 ? 'J' : 'P';
+
+  // Step 3: W/D — Q3,Q7,Q8,Q10（各1分，共4分，≥3判定；平手看子維度）
+  let wd;
+  if (scores.W >= 3) wd = 'W';
+  else if (scores.D >= 3) wd = 'D';
+  else {
+    // W=D=2，看子維度哪個多
+    const subW = (scores.sub_S||0) + (scores.sub_V||0);
+    const subD = (scores.sub_H||0) + (scores.sub_L||0) + (scores.sub_craft||0);
+    wd = subW >= subD ? 'W' : 'D';
+  }
+
+  const key = ei + jp + wd;
+
+  // IJW 無對應 → 看 E/I 分數導向最近的串
+  if (key === 'IJW') {
+    // I但差一點，導向 IPW（獨辣辣）
+    return 'IPW';
+  }
+
+  // EPD → H歷史型 vs L慢旅型
+  if (key === 'EPD') {
+    const H = scores.sub_H || 0;
+    const L = scores.sub_L || 0;
+    return H >= L ? 'EPD2' : 'EPD';
+  }
+
+  return key;
+}
+
+function showResult() {
+  const key = getResultKey();
+  const r = results[key];
+  document.getElementById('r-header').style.background = r.color;
+  document.getElementById('r-name').textContent = r.name;
+  document.getElementById('r-name').style.color = r.textColor;
+  document.getElementById('r-rarity').textContent = `稀有度 ${r.rarity}`;
+  document.getElementById('r-icon').textContent = r.icon;
+  document.getElementById('r-icon').style.background = r.color;
+  document.getElementById('r-desc').textContent = r.desc;
+  document.getElementById('r-quote').textContent = r.quote;
+  document.getElementById('r-tags').innerHTML = r.flags.map(f => `<span class="r-tag">${f}</span>`).join('');
+  document.getElementById('r-sites').innerHTML = r.sites.map((s,i) =>
+    `<div class="r-site-card"><div class="r-site-dot" style="background:${r.siteDots[i]}"></div><div class="r-site-name">${s}</div><div class="r-site-arrow">›</div></div>`
+  ).join('');
+  document.getElementById('r-pairs').innerHTML = r.goodWith.map(p =>
+    `<div class="r-pair-item"><div class="r-pair-icon" style="background:${p.bg}">${p.icon}</div><div><div class="r-pair-name">${p.name.replace('\n','<br>')}</div><div class="r-pair-compat">超級契合 ♥</div></div></div>`
+  ).join('');
+
+  // 送出資料
+  saveResult(key, r.name);
+  showScreen('screen-result');
+  window.scrollTo(0, 0);
+}
+
+function shareResult() {
+  const key = getResultKey();
+  const r = results[key];
+  const text = `我是「${r.name}」${r.icon}（稀有度 ${r.rarity}）\n\n${r.quote}\n\n👉 來測測你是哪種嘉義文化串：${location.href}`;
+  if (navigator.share) {
+    navigator.share({ title: '你是哪種嘉義文化串？', text });
+  } else {
+    navigator.clipboard.writeText(text).then(() => alert('已複製到剪貼簿！'));
+  }
+}
+
+function retryQuiz() { startQuiz(); }
+
+// ══════════════════════════════
+// 資料儲存
+// ══════════════════════════════
+function saveResult(key, name) {
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return;
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: 'save',
+      type: key,
+      name,
+      answers: JSON.stringify(answers),
+      timestamp: new Date().toISOString(),
+      ua: navigator.userAgent.substring(0, 100)
+    })
+  }).catch(() => {});
+}
+
+// ══════════════════════════════
+// Admin 後台
+// ══════════════════════════════
+function doLogin() {
+  const pw = document.getElementById('login-pw').value;
+  if (pw === ADMIN_PASSWORD) {
+    document.getElementById('login-err').style.display = 'none';
+    showScreen('screen-admin');
+    loadAdminData();
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
+}
+
+function logout() { showScreen('screen-cover'); }
+
+function loadAdminData() {
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+    document.getElementById('stat-total').textContent = '(未設定)';
+    document.getElementById('result-bars').innerHTML = '<div class="loading-text">尚未連接 Google 試算表</div>';
+    document.getElementById('recent-table').innerHTML = '<div class="loading-text">請先設定 Apps Script 網址</div>';
+    return;
+  }
+  fetch(`${APPS_SCRIPT_URL}?action=stats`)
+    .then(r => r.json())
+    .then(data => renderAdminData(data))
+    .catch(() => {
+      document.getElementById('result-bars').innerHTML = '<div class="loading-text">載入失敗，請確認 Apps Script 部署狀態</div>';
+    });
+}
+
+function renderAdminData(data) {
+  document.getElementById('stat-total').textContent = data.total || 0;
+  document.getElementById('stat-today').textContent = data.today || 0;
+  document.getElementById('stat-share').textContent = data.shares || 0;
+
+  const order = ['EJW','EJD','EPW','IPW','EPD','EPD2','IJD','IPD'];
+  const names = { EJW:'麻吉兄弟糰糰串', EJD:'雞肉旺萊椒椒串', EPW:'繽紛棉花糖烤串', IPW:'獨辣辣串串香', EPD:'炭烤半熟蛋串', EPD2:'古早糖糖呼嚕串', IJD:'木熏職人雞肉串', IPD:'卡恰蹦蹦串' };
+  const dist = data.distribution || {};
+  const total = data.total || 1;
+  document.getElementById('result-bars').innerHTML = order.map(k => {
+    const cnt = dist[k] || 0;
+    const pct = Math.round((cnt/total)*100);
+    return `<div class="result-bar">
+      <div class="result-bar-label"><span>${names[k]}</span><span>${cnt} (${pct}%)</span></div>
+      <div class="result-bar-track"><div class="result-bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+
+  const rows = (data.recent || []).slice(0, 10);
+  if (rows.length) {
+    document.getElementById('recent-table').innerHTML = `
+      <table class="admin-table">
+        <tr><th>時間</th><th>串型</th></tr>
+        ${rows.map(r => `<tr><td>${r.time||''}</td><td>${r.name||r.type||''}</td></tr>`).join('')}
+      </table>`;
+  } else {
+    document.getElementById('recent-table').innerHTML = '<div class="loading-text">尚無紀錄</div>';
+  }
+}
+
+let allData = [];
+function exportCSV() {
+  if (!allData.length) { alert('尚無資料可匯出'); return; }
+  const csv = ['時間,串型代碼,串型名稱,答題紀錄'].concat(
+    allData.map(r => `${r.timestamp},${r.type},${r.name},"${r.answers||''}"`)
+  ).join('\n');
+  const blob = new Blob(['\uFEFF'+csv], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `chiayi_quiz_${new Date().toISOString().slice(0,10)}.csv`; a.click();
+}
+
+// ══════════════════════════════
+// 畫面切換
+// ══════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// URL hash 路由
+function checkRoute() {
+  if (location.hash === '#admin') { showScreen('screen-login'); }
+}
+window.addEventListener('hashchange', checkRoute);
+checkRoute();
+</script>
 </body>
 </html>
