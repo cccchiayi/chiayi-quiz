@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>嘉義文化串 心理測驗｜新版視覺規格</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   嘉義文化串 心理測驗 — 新版視覺規格
+   版本：v6-design
+   更新日期：2026-04-24
+   設計方向：從黑底改為奶油白底，延伸 CIS 主視覺
+   ============================================ */
+
+/* ── CSS 變數 / CIS 色彩系統 ── */
+:root {
+  /* CIS 五色 */
+  --cis-orange: #FF5500;   /* 串連橘 Pantone 804C */
+  --cis-yellow: #FFE100;   /* 行動黃 Pantone 803C */
+  --cis-green:  #44D62C;   /* 工藝綠 Pantone 802C */
+  --cis-blue:   #00B2FF;   /* 展演藍 Pantone 801C */
+  --cis-pink:   #FF3FB6;   /* 社造粉 Pantone 806C */
+
+  /* 四大串 Header 顏色（結果頁依角色切換） */
+  --串-工藝: var(--cis-green);
+  --串-展演: var(--cis-blue);
+  --串-社造: var(--cis-pink);
+  --串-行動: var(--cis-yellow);
+
+  /* 背景 */
+  --cream: #FFF8EF;         /* 主背景（奶油白） */
+  --warm-white: #FFFDF7;    /* 題目頁背景 */
+
+  /* 文字 */
+  --dark: #1A0A00;          /* 主文字 */
+  --mid:  #7A3A00;          /* 次文字 / 說明文字 */
+  --muted: rgba(0,0,0,0.45);
+
+  /* 竹串色 */
+  --stick: #8B4513;
+
+  /* 字型 */
+  --font: 'Noto Sans TC', sans-serif;
+}
+
+/* ── 全域 reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  font-family: var(--font);
+  background: #F0EBE1;
+  color: var(--dark);
+  min-height: 100vh;
+}
+
+/* ============================================
+   SECTION 1 — 封面頁 (Cover)
+   ============================================ */
+.quiz-cover {
+  background: var(--cream);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 頂部橘色 topbar */
+.cover-topbar {
+  background: var(--cis-orange);
+  padding: 16px 20px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  flex-shrink: 0;
+}
+.cover-topbar::after {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  left: 0; right: 0;
+  height: 16px;
+  background: var(--cis-yellow);
+}
+.cover-brand-excl {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--cis-yellow);
+  line-height: 1;
+}
+.cover-brand-name {
+  font-size: 16px;
+  font-weight: 900;
+  color: white;
+  letter-spacing: 0.04em;
+}
+
+/* 右側串燒裝飾 */
+.cover-skewer {
+  position: absolute;
+  top: 80px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+.skewer-stick {
+  width: 4px;
+  background: var(--stick);
+  border-radius: 2px;
+}
+.skewer-ball {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2.5px solid white;
+  margin: 3px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* 主內容區 */
+.cover-content {
+  padding: 44px 24px 0;
+  flex: 1;
+}
+.cover-tag {
+  display: inline-block;
+  background: var(--cis-yellow);
+  color: var(--dark);
+  font-size: 12px;
+  font-weight: 900;
+  padding: 4px 14px;
+  border-radius: 100px;
+  margin-bottom: 16px;
+  letter-spacing: 0.06em;
+}
+.cover-title {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--dark);
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+.cover-title .accent { color: var(--cis-orange); }
+.cover-subtitle {
+  font-size: 15px;
+  color: var(--mid);
+  line-height: 1.7;
+}
+
+/* 角色圓形區 */
+.cover-chars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 40px 24px 100px;
+}
+.cover-char {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  border: 3px solid white;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+
+/* 開始按鈕（固定底部） */
+.cover-cta {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  padding: 16px 24px 32px;
+  background: linear-gradient(to top, var(--cream) 80%, transparent);
+}
+.btn-start {
+  display: block;
+  width: 100%;
+  background: var(--cis-orange);
+  color: white;
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 900;
+  padding: 16px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 0.04em;
+  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 0 4px 0 #CC3300;
+}
+.btn-start:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #CC3300;
+}
+
+/* ============================================
+   SECTION 2 — 題目頁 (Question)
+   ============================================ */
+.quiz-question {
+  background: var(--warm-white);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 進度列 */
+.q-progress-bar {
+  background: var(--cis-orange);
+  padding: 14px 20px 12px;
+  flex-shrink: 0;
+}
+.q-progress-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.q-progress-track {
+  height: 6px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.q-progress-fill {
+  height: 100%;
+  background: var(--cis-yellow);
+  border-radius: 100px;
+  transition: width 0.4s ease;
+  /* width: X% — 動態設定 */
+}
+
+/* 問題框 */
+.q-question-area {
+  background: var(--cis-orange);
+  padding: 20px 20px 32px;
+  flex-shrink: 0;
+  position: relative;
+  clip-path: ellipse(120% 100% at 50% 0%);
+}
+.q-num {
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--cis-yellow);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.q-text {
+  font-size: 18px;
+  font-weight: 900;
+  color: white;
+  line-height: 1.5;
+}
+
+/* 選項列表 */
+.q-options {
+  padding: 28px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+.q-option {
+  background: white;
+  border: 2px solid rgba(255,85,0,0.18);
+  border-radius: 18px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.q-option:hover {
+  border-color: rgba(255,85,0,0.4);
+}
+.q-option.selected {
+  border-color: var(--cis-orange);
+  background: #FFF2EB;
+}
+.opt-radio {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,85,0,0.3);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+}
+.q-option.selected .opt-radio {
+  background: var(--cis-orange);
+  border-color: var(--cis-orange);
+}
+.opt-radio::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+  opacity: 0;
+}
+.q-option.selected .opt-radio::after { opacity: 1; }
+.opt-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.5;
+}
+
+/* 下一題按鈕 */
+.q-footer {
+  padding: 0 20px 36px;
+  display: flex;
+  justify-content: flex-end;
+}
+.btn-next {
+  background: var(--cis-orange);
+  color: white;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 900;
+  padding: 12px 28px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #CC3300;
+  transition: transform 0.1s;
+}
+.btn-next:active { transform: translateY(2px); box-shadow: none; }
+
+/* ============================================
+   SECTION 3 — 結果頁 (Result)
+   結果頁 header 顏色根據角色的「串」類別切換：
+   工藝串 → var(--cis-green)  / 深色文字 #0A3A00
+   展演串 → var(--cis-blue)   / 深色文字 #00274A
+   社造串 → var(--cis-pink)   / 深色文字 #4A003A
+   行動串 → var(--cis-yellow) / 深色文字 #3A2A00
+   ============================================ */
+.quiz-result {
+  background: var(--cream);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 結果 header */
+.r-header {
+  padding: 20px 20px 18px;
+  position: relative;
+  flex-shrink: 0;
+  /* background: var(--cis-green); — 依角色換色 */
+}
+.r-header-label {
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+.r-char-name {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.2;
+  /* color: 依串類別設定深色 */
+}
+.r-rarity-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--cis-yellow);
+  color: var(--dark);
+  font-size: 11px;
+  font-weight: 900;
+  padding: 4px 12px;
+  border-radius: 100px;
+  letter-spacing: 0.04em;
+}
+
+/* 角色圖示區（含串燒竹串裝飾） */
+.r-icon-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 0 16px;
+  position: relative;
+}
+.r-skewer-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  width: 4px;
+  transform: translateX(-50%);
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--stick) 0px,
+    var(--stick) 20px,
+    transparent 20px,
+    transparent 26px
+  );
+  z-index: 0;
+}
+.r-char-icon {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  border: 4px solid white;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1;
+  /* background: 依角色串色 */
+}
+
+/* 性格描述 */
+.r-desc {
+  padding: 4px 24px 0;
+  font-size: 15px;
+  color: var(--mid);
+  line-height: 1.75;
+  text-align: center;
+}
+
+/* 標籤 */
+.r-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 18px 24px;
+  justify-content: center;
+}
+.r-tag {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 100px;
+}
+/* 工藝橘 */
+.tag-工藝 { background: #FFE8D6; color: #A33000; }
+/* 展演藍 */
+.tag-展演 { background: #D6EEFF; color: #003A7A; }
+/* 社造粉 */
+.tag-社造 { background: #FFD6F0; color: #7A003A; }
+/* 行動黃 */
+.tag-行動 { background: #FFF5C0; color: #7A5A00; }
+/* 通用 */
+.tag-中性 { background: #EEE8E0; color: #5A3A00; }
+
+/* 推薦站點 */
+.r-sites {
+  padding: 0 20px 12px;
+}
+.r-sites-title {
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--mid);
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+.r-site-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: white;
+  border-radius: 16px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255,85,0,0.12);
+}
+.r-site-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.r-site-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dark);
+}
+.r-site-cat {
+  font-size: 11px;
+  color: var(--mid);
+  margin-top: 2px;
+}
+.r-site-arrow {
+  margin-left: auto;
+  color: var(--cis-orange);
+  font-size: 16px;
+  font-weight: 900;
+}
+
+/* 配對好串友 */
+.r-pair {
+  padding: 4px 20px 16px;
+  background: white;
+  margin: 0 20px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,85,0,0.12);
+}
+.r-pair-title {
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--mid);
+  letter-spacing: 0.08em;
+  padding-top: 14px;
+  margin-bottom: 10px;
+}
+.r-pair-row {
+  display: flex;
+  gap: 12px;
+}
+.r-pair-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.r-pair-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  border: 2px solid white;
+}
+.r-pair-label { font-size: 11px; font-weight: 700; color: var(--dark); }
+.r-pair-compat { font-size: 10px; color: var(--mid); }
+
+/* 分享按鈕 */
+.r-footer {
+  padding: 0 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.btn-share {
+  background: var(--cis-orange);
+  color: white;
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 900;
+  padding: 16px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  box-shadow: 0 4px 0 #CC3300;
+  transition: transform 0.1s;
+}
+.btn-share:active { transform: translateY(3px); box-shadow: none; }
+.btn-retry {
+  background: transparent;
+  color: var(--mid);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px;
+  border-radius: 100px;
+  border: 1.5px solid rgba(122,58,0,0.25);
+  cursor: pointer;
+  text-align: center;
+}
+
+/* ============================================
+   DEMO PREVIEW LAYOUT（規格文件用，可刪除）
+   ============================================ */
+.spec-wrapper {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+.spec-section-label {
+  font-size: 11px;
+  font-weight: 900;
+  color: #888;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 32px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+/* 四大串的結果頁 header 配色快查表 */
+/*
+  工藝串：background #44D62C  /  text color #0A3A00  /  icon bg #44D62C
+  展演串：background #00B2FF  /  text color #00274A  /  icon bg #00B2FF
+  社造串：background #FF3FB6  /  text color #4A003A  /  icon bg #FF3FB6
+  行動串：background #FFE100  /  text color #3A2A00  /  icon bg #FFE100
+*/
+</style>
+</head>
+<body>
+<div class="spec-wrapper">
+
+  <!-- ① 封面頁範例 -->
+  <div class="spec-section-label">① 封面頁 Cover</div>
+  <div style="border-radius:24px;overflow:hidden;border:1.5px solid rgba(0,0,0,0.1);">
+    <div class="quiz-cover" style="min-height:auto;">
+      <div class="cover-topbar">
+        <span class="cover-brand-excl">！</span>
+        <span class="cover-brand-name">文化＋1串</span>
+      </div>
+      <!-- 黃色帶 -->
+      <div style="height:16px;background:var(--cis-yellow);flex-shrink:0;"></div>
+
+      <div style="position:relative;background:var(--cream);padding-bottom:80px;">
+        <!-- 串燒裝飾 -->
+        <div class="cover-skewer">
+          <div class="skewer-stick" style="height:16px;"></div>
+          <div class="skewer-ball" style="background:var(--cis-orange);"></div>
+          <div class="skewer-stick" style="height:8px;"></div>
+          <div class="skewer-ball" style="background:var(--cis-yellow);"></div>
+          <div class="skewer-stick" style="height:8px;"></div>
+          <div class="skewer-ball" style="background:var(--cis-green);"></div>
+          <div class="skewer-stick" style="height:8px;"></div>
+          <div class="skewer-ball" style="background:var(--cis-blue);"></div>
+          <div class="skewer-stick" style="height:8px;"></div>
+          <div class="skewer-ball" style="background:var(--cis-pink);"></div>
+          <div class="skewer-stick" style="height:16px;"></div>
+        </div>
+
+        <div class="cover-content">
+          <span class="cover-tag">心理測驗</span>
+          <div class="cover-title">你是哪種<br><span class="accent">嘉義文化串</span>？</div>
+          <div class="cover-subtitle" style="margin-top:10px;">8 種串燒個性<br>找到你的嘉義文化靈魂</div>
+        </div>
+
+        <div class="cover-chars">
+          <div class="cover-char" style="background:var(--cis-orange);">🌶</div>
+          <div class="cover-char" style="background:var(--cis-yellow);">🧅</div>
+          <div class="cover-char" style="background:var(--cis-green);">🥬</div>
+          <div class="cover-char" style="background:var(--cis-blue);">🧊</div>
+          <div class="cover-char" style="background:var(--cis-pink);">🍡</div>
+          <div class="cover-char" style="background:#FF8800;">🍄</div>
+          <div class="cover-char" style="background:#AA44FF;">🧄</div>
+          <div class="cover-char" style="background:#00CCAA;">🌿</div>
+        </div>
+      </div>
+
+      <div style="padding:16px 24px 24px;background:var(--cream);">
+        <button class="btn-start">開始測驗 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 題目頁範例 -->
+  <div class="spec-section-label">② 題目頁 Question</div>
+  <div style="border-radius:24px;overflow:hidden;border:1.5px solid rgba(0,0,0,0.1);">
+    <div class="quiz-question" style="min-height:auto;">
+      <div class="q-progress-bar">
+        <div class="q-progress-label">Q3 / 8</div>
+        <div class="q-progress-track">
+          <div class="q-progress-fill" style="width:37.5%;"></div>
+        </div>
+      </div>
+      <div class="q-question-area">
+        <div class="q-num">Q.3</div>
+        <div class="q-text">朋友突然揪去嘉義，<br>你的第一反應是？</div>
+      </div>
+      <div class="q-options">
+        <div class="q-option selected">
+          <div class="opt-radio"></div>
+          <div class="opt-text">「好欸！先查有什麼好吃的！」</div>
+        </div>
+        <div class="q-option">
+          <div class="opt-radio"></div>
+          <div class="opt-text">「等一下我查一下有什麼文化景點」</div>
+        </div>
+        <div class="q-option">
+          <div class="opt-radio"></div>
+          <div class="opt-text">「反正你安排，我跟著走就好」</div>
+        </div>
+        <div class="q-option">
+          <div class="opt-radio"></div>
+          <div class="opt-text">「我其實更想一個人慢慢逛」</div>
+        </div>
+      </div>
+      <div class="q-footer">
+        <button class="btn-next">下一題 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 結果頁範例（工藝串） -->
+  <div class="spec-section-label">③ 結果頁 Result（以工藝串為例）</div>
+  <div style="border-radius:24px;overflow:hidden;border:1.5px solid rgba(0,0,0,0.1);">
+    <div class="quiz-result" style="min-height:auto;">
+      <div class="r-header" style="background:var(--cis-green);">
+        <div class="r-header-label">你的文化串類型</div>
+        <div class="r-char-name" style="color:#0A3A00;">獨辣辣<br>串串香</div>
+        <div class="r-rarity-badge">稀有度 12%</div>
+      </div>
+      <div class="r-icon-wrap">
+        <div class="r-skewer-line"></div>
+        <div class="r-char-icon" style="background:var(--cis-green);">🌶</div>
+      </div>
+      <div class="r-desc">獨行、直接、有想法。<br>你是那種一個人去嘉義<br>也能玩得超充實的人。</div>
+      <div class="r-tags">
+        <span class="r-tag tag-工藝">工藝串</span>
+        <span class="r-tag tag-中性">獨旅型</span>
+        <span class="r-tag tag-中性">深度旅遊</span>
+        <span class="r-tag tag-中性">有規劃</span>
+      </div>
+
+      <div class="r-pair" style="margin:0 20px 12px;">
+        <div class="r-pair-title">你的串燒好夥伴</div>
+        <div class="r-pair-row">
+          <div class="r-pair-item">
+            <div class="r-pair-icon" style="background:var(--cis-blue);">🧊</div>
+            <div>
+              <div class="r-pair-label">冷靜清涼飲</div>
+              <div class="r-pair-compat">超級契合 ♥</div>
+            </div>
+          </div>
+          <div class="r-pair-item">
+            <div class="r-pair-icon" style="background:var(--cis-pink);">🍡</div>
+            <div>
+              <div class="r-pair-label">甜膩社交串</div>
+              <div class="r-pair-compat">互補型朋友</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="r-sites">
+        <div class="r-sites-title">推薦你的文化基地</div>
+        <div class="r-site-card">
+          <div class="r-site-dot" style="background:var(--cis-orange);"></div>
+          <div>
+            <div class="r-site-name">福樟良材</div>
+            <div class="r-site-cat">工藝串 · 木工體驗</div>
+          </div>
+          <div class="r-site-arrow">›</div>
+        </div>
+        <div class="r-site-card">
+          <div class="r-site-dot" style="background:var(--cis-blue);"></div>
+          <div>
+            <div class="r-site-name">嘉義市立美術館</div>
+            <div class="r-site-cat">展演串 · 藝術展覽</div>
+          </div>
+          <div class="r-site-arrow">›</div>
+        </div>
+        <div class="r-site-card">
+          <div class="r-site-dot" style="background:var(--cis-green);"></div>
+          <div>
+            <div class="r-site-name">木更咖啡</div>
+            <div class="r-site-cat">工藝串 · 選物空間</div>
+          </div>
+          <div class="r-site-arrow">›</div>
+        </div>
+      </div>
+
+      <div class="r-footer">
+        <button class="btn-share">分享我的結果！</button>
+        <button class="btn-retry">再測一次</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
